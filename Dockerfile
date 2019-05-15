@@ -7,8 +7,10 @@ RUN yum -y update && \
  yum -y install wget bzip2 make net-tools expat-devel gcc gcc-c++ perl && \
  mkdir -p /home1 && \
  adduser -d /home1/irteam  irteam && \
- chown -R irteam:irteam /home1 
+ chown -R irteam:irteam /home1  && \
 # echo 'irteam ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers 
+ rm -rf /etc/localtime  && \
+ ln -s /usr/share/zoneinfo/Asia/Seoul /etc/localtime
 
 USER irteam
 
@@ -116,6 +118,8 @@ echo -e "JkLogStampFormat \"[%a %b %d %H:%M:%S %Y]\""  >> /home1/irteam/apps/apa
 echo -e "JkRequestLogFormat \"%w %V %T\"" >> /home1/irteam/apps/apache/conf/httpd-jk.conf && \
 echo -e "JkShmFile \"logs/mod_jk.shm\"" >> /home1/irteam/apps/apache/conf/httpd-jk.conf && \
 echo -e "JkMount /*.jsp balancer" >> /home1/irteam/apps/apache/conf/httpd-jk.conf && \
+echo -e "JkMount /*.png balancer" >> /home1/irteam/apps/apache/conf/httpd-jk.conf && \
+echo -e "JkMount /*.css balancer" >> /home1/irteam/apps/apache/conf/httpd-jk.conf && \
 echo -e "worker.list=balancer" >> /home1/irteam/apps/apache/conf/workers.properties && \
 echo -e "worker.worker1.type=ajp13" >> /home1/irteam/apps/apache/conf/workers.properties && \
 echo -e "worker.worker1.host=localhost" >> /home1/irteam/apps/apache/conf/workers.properties && \
